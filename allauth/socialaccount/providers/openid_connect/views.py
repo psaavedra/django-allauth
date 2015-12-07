@@ -5,6 +5,7 @@ from allauth.socialaccount.providers.openid_connect.client import OpenidConnectC
 from allauth.socialaccount.providers.oauth2.views import OAuth2Adapter, OAuth2View, OAuth2LoginView, OAuth2CallbackView
 from allauth.socialaccount.models import SocialToken, SocialLogin
 from allauth.socialaccount.helpers import complete_social_login
+from allauth.socialaccount.helpers import render_authentication_error
 
 from django.core.urlresolvers import reverse
 from allauth.utils import build_absolute_uri
@@ -39,7 +40,9 @@ class OpenidConnectCallbackView(OpenidConnectView):
     def dispatch(self, request):
         if 'error' in request.GET or not 'code' in request.GET:
             # TODO: Distinguish cancel from error
-            return render_authentication_error(request)
+            return render_authentication_error(request,
+                    self.adapter.get_provider().id
+                    )
         app = self.adapter.get_provider().get_app(self.request)
         client = self.get_client(request, app)
         try:
