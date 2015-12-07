@@ -28,7 +28,7 @@ class OpenidConnectClient(OAuth2Client):
                                 params=params)
         open_id = None
         if resp.status_code == 200:
-                respContent = str(resp.content, encoding="UTF-8")
+                respContent = str(resp.content)
                 open_id = re.search(r'openid":"([A-F0-9]+)"', respContent).groups()[0]
         if not open_id:
             raise OAuth2Error('Error retrieving open id: %s'

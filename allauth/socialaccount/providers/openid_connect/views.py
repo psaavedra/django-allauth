@@ -28,7 +28,7 @@ class OpenidConnectView(OAuth2View):
                               self.adapter.access_token_url,
                               callback_url,
                               self.adapter.open_id_url,
-                              provider.get_scope())
+                              provider.get_scope(request))
         return client
 
 
@@ -69,4 +69,5 @@ class OpenidConnectCallbackView(OpenidConnectView):
                 login.state = SocialLogin.unstash_state(request)
             return complete_social_login(request, login)
         except OAuth2Error as e:
-            return render_authentication_error(request)
+            return
+        render_authentication_error(request,self.adapter.get_provider().id)

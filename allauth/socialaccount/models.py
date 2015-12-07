@@ -36,8 +36,8 @@ class SocialApp(models.Model):
     objects = SocialAppManager()
 
     provider = models.CharField(verbose_name=_('provider'),
-                                max_length=30,
-                                choices=providers.registry.as_choices())
+                                max_length=30
+                                )
     name = models.CharField(verbose_name=_('name'),
                             max_length=40)
     client_id = models.CharField(verbose_name=_('client id'),
